@@ -6,6 +6,14 @@ import RPi.GPIO as GPIO
 NUM_ATTEMPTS = 8
 TRANSMIT_PIN = 24
 
+class GPIOSetup:
+    def __enter__(self):
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(TRANSMIT_PIN, GPIO.OUT)
+
+    def __exit__(self, a, b, c):
+        GPIO.cleanup()
+
 
 class Control:
     @staticmethod
@@ -53,11 +61,7 @@ if __name__ == '__main__':
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(TRANSMIT_PIN, GPIO.OUT)
 
-    try:
+    with GPIOSetup():
         for argument in sys.argv[2:]:
             control.do_cmd(argument)
-    finally:
-        GPIO.cleanup()
-
-
 

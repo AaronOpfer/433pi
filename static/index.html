@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name=viewport content="width=device-width, initial-scale=1, maximum-scale=1">
+<style>
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+
+}
+button {
+    box-sizing: border-box;
+}
+button {
+    height: 100%;
+    min-height: 20px;
+    width: 50%;
+}
+div {
+    flex: 1;
+    display: flex;
+}
+</style>
+<script>
+document.addEventListener("click", function (evt) {
+  if (evt.target.tagName.toLowerCase() == "button") {
+    var req = new XMLHttpRequest();
+    req.open('GET', '/lights/'+evt.target.innerText, true);
+    req.send();
+  }
+});
+</script>
+</head>
+<body>
+    <div>
+    <button>a_on</button>
+    <button>a_off</button>
+    </div>
+    <div>
+    <button>b_on</button>
+    <button>b_off</button>
+    </div>
+    <div>
+    <button>c_on</button>
+    <button>c_off</button>
+    </div>
+</body>
