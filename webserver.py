@@ -9,8 +9,12 @@ define("port", default=8888, help="run on the given port", type=int)
 lights = None
 
 class LightHandler(RequestHandler):
-    def get(self, cmd):
-        lights.do_cmd(cmd)
+    def get(self, targets, state):
+        if state not in ('on', 'off'):
+            self.set_status(404)
+            return
+        for light in targets:
+            lights.do_cmd(light+'_'+state)
 
 if __name__ == "__main__":
     parse_command_line()
@@ -19,7 +23,7 @@ if __name__ == "__main__":
         app = Application(
             [
                 (r'/()', StaticFileHandler, {"path": "static", "default_filename": "index.html"}),
-                (r'/lights/(._o[fn]+)', LightHandler),
+                (r'/lights/([a-e]*)_(o[fn]+)', LightHandler),
             ],
             static_path='static'
         )
